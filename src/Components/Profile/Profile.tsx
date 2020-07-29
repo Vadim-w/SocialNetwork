@@ -1,13 +1,12 @@
 import React from 'react';
 import MyPosts from './MyPosts/MyPosts';
 import ProfileInfo from './MyPosts/ProfileInfo/ProfileInfo';
-import {postsType} from '../../Redux/state';
+import {ActionsTypes, postsType, RootStateType, StoreType} from '../../Redux/state';
 
 type propsProfileType = {
     posts: Array<postsType>
-    addPost: (postMessage: string) => void
     newPostText: string
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 
@@ -15,10 +14,10 @@ const Profile: React.FC<propsProfileType> = (props) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={props.posts}
-                     addPost={props.addPost}
+            <MyPosts dispatch={props.dispatch}
+                     posts={props.posts}
                      newPostText={props.newPostText}
-                     updateNewPostText={props.updateNewPostText}/>
+            />
         </div>
     );
 }

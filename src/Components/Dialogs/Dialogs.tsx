@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogsItem';
 import Message from './Message/Message';
-import {DialogsPageType, dialogsType, messagesType, postsType} from '../../Redux/state';
+import {DialogsPageType, dialogsType, messagesType, postsType, ActionsTypes} from '../../Redux/state';
 
 
 
@@ -10,8 +10,7 @@ type dialogsPropsType = {
     dialogs: Array<dialogsType>
     messages: Array<messagesType>
     newDialogText: string
-    updateNewDialogText: (newText: string) => void
-    addDialog: (textDialog: string) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 
@@ -25,12 +24,12 @@ const Dialogs: React.FC<dialogsPropsType> = (props) => {
 
     let addDialog = () => {
         if(newDialogElement.current)
-            props.addDialog(newDialogElement.current.value)
+            props.dispatch({type: "ADD-DIALOG", newDialogText: newDialogElement.current.value})
 
     }
 
     let onDialogOnChange = (value: string) => {
-        props.updateNewDialogText(value);
+        props.dispatch({type: "UPDATE-NEW-DIALOG-TEXT", newText: value});
     }
 
 
