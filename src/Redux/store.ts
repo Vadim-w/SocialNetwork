@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
+import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
 
 export type dialogsType = {
     id: string
@@ -13,7 +15,7 @@ export type postsType = {
     message: string
     likesCount: number
 }
-type ProfilePageType = {
+export type ProfilePageType = {
     posts: Array<postsType>
     newPostText: string
 }
@@ -36,31 +38,27 @@ export type StoreType = {
     updateNewDialogText: (newText: string) => void,
     subscribe: (observer: (state: RootStateType) => void) => void,
     getState: () => RootStateType
-    dispatch: (action:ActionsTypes) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
-export type ActionsTypes =  AddPostActionType | UpdateNewPostTextType | AddDialogType | UpdateNewDialogTextType
+// export type ProfileActionsTypes =
+//     ReturnType<typeof addPostActionCreator> |
+//     ReturnType<typeof onPostChangeActionCreator>
+//
+// export type DialogsActionsTypes =
+//     ReturnType<typeof addDialogActionCreator> |
+//     ReturnType<typeof onDialogChangeActionCreator>
+
+export type ActionsTypes =
+    ReturnType<typeof addPostActionCreator> |
+    ReturnType<typeof onPostChangeActionCreator> |
+    ReturnType<typeof addDialogActionCreator> |
+    ReturnType<typeof onDialogChangeActionCreator>
 
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-    newPostText: string
-}
 
-type UpdateNewPostTextType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newText: string
-}
 
-type AddDialogType = {
-    type: 'ADD-DIALOG'
-    newDialogText: string
-}
 
-type UpdateNewDialogTextType = {
-    type: 'UPDATE-NEW-DIALOG-TEXT'
-    newText: string
-}
 
 const store: StoreType = {
     _state: {
@@ -70,7 +68,7 @@ const store: StoreType = {
                 {id: v1(), message: "How is your", likesCount: 33},
                 {id: v1(), message: 'hello frend ', likesCount: 54},
             ],
-            newPostText: "Hello friend"
+            newPostText: "",
         },
         dialogsPage: {
             dialogs: [
@@ -88,7 +86,7 @@ const store: StoreType = {
                 {id: v1(), message: "hello"},
                 {id: v1(), message: "how are you"},
             ],
-            newDialogText: "hello",
+            newDialogText: "",
 
         },
 
@@ -98,7 +96,9 @@ const store: StoreType = {
         console.log('state changed')
     },
 
-    getState() {return this._state},
+    getState() {
+        return this._state
+    },
     subscribe(observer: (state: RootStateType) => void) {
         this._callSubscriber = observer;
     },
@@ -132,33 +132,11 @@ const store: StoreType = {
 
     },
     dispatch(action) {
-        if(action.type === 'ADD-POST') {
-            let newPost: postsType = {
-                id: v1(),
-                message: action.newPostText,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = ""
-            this._callSubscriber(this._state)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        } else if (action.type === 'ADD-DIALOG') {
-            let newDialog: messagesType = {
-                id: v1(),
-                message: action.newDialogText,
-            }
-            this._state.dialogsPage.messages.push(newDialog);
-            this._state.dialogsPage.newDialogText = "";
-            this._callSubscriber(this._state)
-        } else if(action.type === 'UPDATE-NEW-DIALOG-TEXT') {
-            this._state.dialogsPage.newDialogText = action.newText;
-            this._callSubscriber(this._state)
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
 
-        }
+            this._callSubscriber(this._state)
     }
-
 }
 
 export default store;

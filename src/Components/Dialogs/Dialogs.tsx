@@ -2,7 +2,8 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogsItem';
 import Message from './Message/Message';
-import {DialogsPageType, dialogsType, messagesType, postsType, ActionsTypes} from '../../Redux/state';
+import { addDialogActionCreator, onDialogChangeActionCreator} from '../../Redux/dialogs-reducer';
+import {ActionsTypes, dialogsType, messagesType} from '../../Redux/store';
 
 
 
@@ -24,12 +25,12 @@ const Dialogs: React.FC<dialogsPropsType> = (props) => {
 
     let addDialog = () => {
         if(newDialogElement.current)
-            props.dispatch({type: "ADD-DIALOG", newDialogText: newDialogElement.current.value})
+            props.dispatch(addDialogActionCreator( newDialogElement.current.value))
 
     }
 
-    let onDialogOnChange = (value: string) => {
-        props.dispatch({type: "UPDATE-NEW-DIALOG-TEXT", newText: value});
+    let onDialogChange = (value: string) => {
+        props.dispatch(onDialogChangeActionCreator(value));
     }
 
 
@@ -45,8 +46,8 @@ const Dialogs: React.FC<dialogsPropsType> = (props) => {
             <div>
                 <textarea ref={newDialogElement}
                           value={props.newDialogText}
-                          onChange={ (e) => onDialogOnChange (e.currentTarget.value)}/>
-                <button onClick={addDialog}>add dialog</button>
+                          onChange={ (e) => onDialogChange (e.currentTarget.value)}/>
+                <button onClick={addDialog}>Send</button>
             </div>
         </div>
 
