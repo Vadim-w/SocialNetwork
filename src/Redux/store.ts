@@ -57,9 +57,6 @@ export type ActionsTypes =
 
 
 
-
-
-
 const store: StoreType = {
     _state: {
         profilePage: {
