@@ -8,11 +8,12 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
-import {StoreType} from './Redux/store'
+import {ActionsTypes, DialogsPageType, ProfilePageType} from './Redux/store'
+import {CombinedState, Store} from "redux";
 
 
 type AppPropsType = {
-    store: StoreType
+    store: Store<CombinedState<{ profilePage: ProfilePageType; dialogsPage: DialogsPageType; }>, ActionsTypes>
 }
 
 
