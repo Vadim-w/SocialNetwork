@@ -3,29 +3,30 @@ import { addDialogActionCreator, onDialogChangeActionCreator} from '../../Redux/
 import {ActionsTypes, DialogsPageType, ProfilePageType} from '../../Redux/store';
 import {CombinedState, Store} from "redux";
 import {Dialogs} from "./Dialogs";
+import {StoreContext} from "../../StoreContext";
 
-type dialogsContainerPropsType = {
-    store: Store<CombinedState<{ profilePage: ProfilePageType; dialogsPage: DialogsPageType; }>, ActionsTypes>
-}
 
-export const DialogsContainer: React.FC<dialogsContainerPropsType> = (props) => {
+export const DialogsContainer = () => {
 
-    let state = props.store.getState()
 
-    let addDialog = (value: string) => {
-            props.store.dispatch(addDialogActionCreator(value))
+    return <StoreContext.Consumer>
+        {(store) => {
+            let state = store.getState()
 
-    }
-    let updateNewDialogText = (value: string) => {
-        props.store.dispatch(onDialogChangeActionCreator(value))
-    }
+            let addDialog = (value: string) => {
+                store.dispatch(addDialogActionCreator(value))
 
-    return (
-        <Dialogs dialogs={state.dialogsPage.dialogs}
-                 messages={state.dialogsPage.messages}
-                 newDialogText={state.dialogsPage.newDialogText}
-                 updateNewDialogText={updateNewDialogText}
-                 addDialog={addDialog}
-                 />
-    )
+            }
+            let updateNewDialogText = (value: string) => {
+                store.dispatch(onDialogChangeActionCreator(value))
+            }
+               return <Dialogs dialogs={state.dialogsPage.dialogs}
+                         messages={state.dialogsPage.messages}
+                         newDialogText={state.dialogsPage.newDialogText}
+                         updateNewDialogText={updateNewDialogText}
+                         addDialog={addDialog}/>
+            }
+        }
+        </StoreContext.Consumer>
+
 }
