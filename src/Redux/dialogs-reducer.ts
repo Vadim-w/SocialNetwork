@@ -29,18 +29,29 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
                 id: v1(),
                 message: action.newDialogText,
             }
-            state.messages.push(newDialog);
-            state.newDialogText = "";
-            return state;
+            return {
+                ...state,
+                newDialogText: "",
+                messages: [...state.messages, newDialog]
+            };
+
         case "UPDATE-NEW-DIALOG-TEXT":
-            state.newDialogText = action.newText;
-            return state;
+            return {
+                ...state,
+                newDialogText: action.newText
+            };
         default:
             return state;
     }
 
 }
 
-export let addDialogActionCreator = (newDialogText: string) => ({type: "ADD-DIALOG", newDialogText: newDialogText}) as const
-export let onDialogChangeActionCreator = (newText: string) => ({type: "UPDATE-NEW-DIALOG-TEXT", newText: newText}) as const
+export let addDialogActionCreator = (newDialogText: string) => ({
+    type: "ADD-DIALOG",
+    newDialogText: newDialogText
+}) as const
+export let onDialogChangeActionCreator = (newText: string) => ({
+    type: "UPDATE-NEW-DIALOG-TEXT",
+    newText: newText
+}) as const
 

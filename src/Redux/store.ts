@@ -1,7 +1,19 @@
 import {v1} from "uuid";
 import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
 import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
-
+import {followAC, setUsersAC, unfollowAC} from "./users-reducer";
+export type locationType = {
+    city: string,
+    country: string
+}
+export type userType = {
+    id: string,
+    followed: boolean,
+    fullName: string,
+    status: string,
+    photoUrl: string,
+    location: locationType
+}
 export type dialogsType = {
     id: string
     name: string
@@ -24,9 +36,11 @@ export type DialogsPageType = {
     messages: Array<messagesType>
     newDialogText: string
 }
+export type UsersPageType = {users:Array<userType>}
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+    usersPage: UsersPageType
 }
 
 export type StoreType = {
@@ -53,7 +67,12 @@ export type ActionsTypes =
     ReturnType<typeof addPostActionCreator> |
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addDialogActionCreator> |
-    ReturnType<typeof onDialogChangeActionCreator>
+    ReturnType<typeof onDialogChangeActionCreator>|
+    ReturnType<typeof followAC>|
+    ReturnType<typeof unfollowAC>|
+    ReturnType<typeof setUsersAC>
+
+
 
 
 
@@ -86,6 +105,34 @@ const store: StoreType = {
             newDialogText: "",
 
         },
+        usersPage: {
+            users: [
+                {
+                    id: v1(),
+                    followed: false,
+                    fullName: 'Ivan',
+                    status: "good",
+                    photoUrl: "",
+                    location: {city: "Moscow", country: "Russia"}
+                },
+                {
+                    id: v1(),
+                    followed: true,
+                    fullName: 'Andrey',
+                    status: "good",
+                    photoUrl: "",
+                    location: {city: "Minsk", country: "Belarus"}
+                },
+                {
+                    id: v1(),
+                    followed: false,
+                    fullName: 'Aleksandr',
+                    status: "good",
+                    photoUrl: "",
+                    location: {city: "Kiev", country: "Ukraine"}
+                },
+            ],
+        }
 
 
     },
