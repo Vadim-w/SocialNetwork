@@ -9,21 +9,14 @@ type locationType = {
 type userType = {
     id: string,
     followed: boolean,
-    fullName: string,
+    name: string,
     status: string,
-    photoUrl: string,
-    location: locationType
+    photos: string,
+    //location: locationType
 }
 
 let initialState = {
-     users: [
-    //     {id: v1(), photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSxLkbtTa0kfmKizxJgqECQLdlt_xq1R2jEQQ&usqp=CAU",
-    //         followed: false, fullName: 'Ivan', status: "good", location: {city: "Moscow", country: "Russia"}},
-    //     {id: v1(), photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSxLkbtTa0kfmKizxJgqECQLdlt_xq1R2jEQQ&usqp=CAU",
-    //         followed: true, fullName: 'Andrey', status: "good", location: {city: "Minsk", country: "Belarus"}},
-    //     {id: v1(), photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSxLkbtTa0kfmKizxJgqECQLdlt_xq1R2jEQQ&usqp=CAU",
-    //         followed: false, fullName: 'Aleksandr', status: "good", location: {city: "Kiev", country: "Ukraine"}},
-     ],
+     users: [],
 };
 
 export const usersReducer = (state: UsersPageType  = initialState, action: ActionsTypes) => {

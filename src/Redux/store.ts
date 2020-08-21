@@ -9,10 +9,10 @@ export type locationType = {
 export type userType = {
     id: string,
     followed: boolean,
-    fullName: string,
+    name: string,
     status: string,
-    photoUrl: string,
-    location: locationType
+    photos: string,
+    //location: locationType
 }
 export type dialogsType = {
     id: string
@@ -110,26 +110,26 @@ const store: StoreType = {
                 {
                     id: v1(),
                     followed: false,
-                    fullName: 'Ivan',
+                    name: 'Ivan',
                     status: "good",
-                    photoUrl: "",
-                    location: {city: "Moscow", country: "Russia"}
+                    photos: "",
+                    //location: {city: "Moscow", country: "Russia"}
                 },
                 {
                     id: v1(),
                     followed: true,
-                    fullName: 'Andrey',
+                    name: 'Andrey',
                     status: "good",
-                    photoUrl: "",
-                    location: {city: "Minsk", country: "Belarus"}
+                    photos: "",
+                    //location: {city: "Minsk", country: "Belarus"}
                 },
                 {
                     id: v1(),
                     followed: false,
-                    fullName: 'Aleksandr',
+                    name: 'Aleksandr',
                     status: "good",
-                    photoUrl: "",
-                    location: {city: "Kiev", country: "Ukraine"}
+                    photos: "",
+                    //location: {city: "Kiev", country: "Ukraine"}
                 },
             ],
         }
