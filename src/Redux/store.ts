@@ -1,7 +1,14 @@
 import {v1} from "uuid";
 import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
 import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
-import {followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC} from "./users-reducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    settoggleIsFetchingAC,
+    unfollowAC
+} from "./users-reducer";
 export type locationType = {
     city: string,
     country: string
@@ -36,7 +43,13 @@ export type DialogsPageType = {
     messages: Array<messagesType>
     newDialogText: string
 }
-export type UsersPageType = {users:Array<userType>, pageSize: number, totalUsersCount: number, currentPage: number,}
+export type UsersPageType = {
+    users:Array<userType>,
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
+    isFetching: boolean,
+}
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
@@ -72,7 +85,8 @@ export type ActionsTypes =
     ReturnType<typeof unfollowAC>|
     ReturnType<typeof setUsersAC>|
     ReturnType<typeof setCurrentPageAC>|
-    ReturnType<typeof setTotalUsersCountAC>
+    ReturnType<typeof setTotalUsersCountAC>|
+    ReturnType<typeof settoggleIsFetchingAC>
 
 
 
@@ -138,6 +152,7 @@ const store: StoreType = {
             pageSize: 5,
             totalUsersCount: 20,
             currentPage: 2,
+            isFetching: false,
         }
 
 
