@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
 import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
-import {followAC, setUsersAC, unfollowAC} from "./users-reducer";
+import {followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC} from "./users-reducer";
 export type locationType = {
     city: string,
     country: string
@@ -36,7 +36,7 @@ export type DialogsPageType = {
     messages: Array<messagesType>
     newDialogText: string
 }
-export type UsersPageType = {users:Array<userType>}
+export type UsersPageType = {users:Array<userType>, pageSize: number, totalUsersCount: number, currentPage: number,}
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
@@ -70,7 +70,10 @@ export type ActionsTypes =
     ReturnType<typeof onDialogChangeActionCreator>|
     ReturnType<typeof followAC>|
     ReturnType<typeof unfollowAC>|
-    ReturnType<typeof setUsersAC>
+    ReturnType<typeof setUsersAC>|
+    ReturnType<typeof setCurrentPageAC>|
+    ReturnType<typeof setTotalUsersCountAC>
+
 
 
 
@@ -132,6 +135,9 @@ const store: StoreType = {
                     //location: {city: "Kiev", country: "Ukraine"}
                 },
             ],
+            pageSize: 5,
+            totalUsersCount: 20,
+            currentPage: 2,
         }
 
 

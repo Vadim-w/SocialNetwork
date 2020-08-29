@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {ActionsTypes, UsersPageType} from "./store";
 
 type locationType = {
@@ -16,10 +15,13 @@ type userType = {
 }
 
 let initialState = {
-     users: [],
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 2,
 };
 
-export const usersReducer = (state: UsersPageType  = initialState, action: ActionsTypes) => {
+export const usersReducer = (state: UsersPageType = initialState, action: ActionsTypes) => {
     switch (action.type) {
         case "FOLLOW":
             return {
@@ -43,7 +45,11 @@ export const usersReducer = (state: UsersPageType  = initialState, action: Actio
                 })
             }
         case "SET_USERS":
-            return {...state, users:[...state.users,  ...action.users]}
+            return {...state, users: [...action.users]}
+        case "SET_CURRENT_PAGE":
+            return {...state, currentPage: action.currentPage}
+        case "SET_USERS_TOTAL_COUNT":
+            return  {...state, totalUsersCount: action.totalCount}
         default:
             return state;
     }
@@ -61,6 +67,16 @@ export const unfollowAC = (id: string) => ({
 export const setUsersAC = (users: Array<userType>) => ({
     type: "SET_USERS",
     users: users
+}) as const
+
+export const setCurrentPageAC = (currentPage: number) => ({
+    type: "SET_CURRENT_PAGE",
+    currentPage
+}) as const
+
+export const setTotalUsersCountAC = (totalCount: number) => ({
+    type: "SET_USERS_TOTAL_COUNT",
+    totalCount
 }) as const
 
 
