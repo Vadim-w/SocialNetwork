@@ -2,12 +2,12 @@ import {v1} from "uuid";
 import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
 import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
 import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    settoggleIsFetchingAC,
-    unfollowAC
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers,
+    setToggleIsFetching,
+    unfollow
 } from "./users-reducer";
 export type locationType = {
     city: string,
@@ -81,12 +81,12 @@ export type ActionsTypes =
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addDialogActionCreator> |
     ReturnType<typeof onDialogChangeActionCreator>|
-    ReturnType<typeof followAC>|
-    ReturnType<typeof unfollowAC>|
-    ReturnType<typeof setUsersAC>|
-    ReturnType<typeof setCurrentPageAC>|
-    ReturnType<typeof setTotalUsersCountAC>|
-    ReturnType<typeof settoggleIsFetchingAC>
+    ReturnType<typeof follow>|
+    ReturnType<typeof unfollow>|
+    ReturnType<typeof setUsers>|
+    ReturnType<typeof setCurrentPage>|
+    ReturnType<typeof setTotalUsersCount>|
+    ReturnType<typeof setToggleIsFetching>
 
 
 
