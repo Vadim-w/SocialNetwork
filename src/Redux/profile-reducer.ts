@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {postsType, ProfilePageType, ActionsTypes} from "./store";
+import {postsType, ProfilePageType, ActionsTypes, profileType} from "./store";
 
 let initialState = {
     posts: [
@@ -64,7 +64,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 }
 export let addPostActionCreator = (newPostText: string) => ({type: "ADD-POST", newPostText: newPostText}) as const
 export let onPostChangeActionCreator = (newText: string) => ({type: "UPDATE-NEW-POST-TEXT", newText: newText}) as const
-export let setUserProfile = (profile: any) => ({type: "SET_USER_PROFILE", profile}) as const
+export let setUserProfile = (profile: profileType) => ({type: "SET_USER_PROFILE", profile}) as const
 
 
 

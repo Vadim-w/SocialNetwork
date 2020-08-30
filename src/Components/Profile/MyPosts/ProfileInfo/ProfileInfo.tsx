@@ -14,11 +14,12 @@ const ProfileInfo = (props: profileInfoPropsType) => {
     return (
         <div>
             <div>
-                <img src='https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg'/>
+                <img src='https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg' alt={"background"}/>
             </div>
             <div className={s.descriptionBlock}>
-                <img src={String(props.profile.photos.large)} style={{height: "300px", width: "300px"}}/>
-                ava+description
+                <img src={props.profile.photos.large} style={{height: "300px", width: "300px"}} alt={"avatar"}/>
+                {props.profile.fullName}
+               (description)
             </div>
         </div>
     );
