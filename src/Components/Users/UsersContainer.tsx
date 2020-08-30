@@ -84,31 +84,6 @@ let mapStateToProps = (state: RootStateType) => {
 
     }
 }
-//
-// let mapDispatchToProps = (dispatch:(action: ActionsTypes) => void) => {
-//     return {
-//         follow: (userID: string) => {
-//             dispatch(followAC(userID))
-//         },
-//         unfollow: (userID: string) => {
-//             dispatch(unfollowAC(userID))
-//         },
-//         setUsers: (users: Array<userType>): any => {
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (pageNumber: number) => {
-//             dispatch((setCurrentPageAC(pageNumber)))
-//         },
-//         setTotalUsersCount: (totalCount: number) => {
-//             dispatch(setTotalUsersCountAC(totalCount))
-//         },
-//         setToggleIsFetching: (isFetching: boolean) => {
-//             dispatch(settoggleIsFetchingAC(isFetching))
-//         }
-//
-//
-//     }
-// }
 
 
 

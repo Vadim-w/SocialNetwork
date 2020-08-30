@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {profileReducer, addPostActionCreator, onPostChangeActionCreator} from "./profile-reducer";
+import {profileReducer, addPostActionCreator, onPostChangeActionCreator, setUserProfile} from "./profile-reducer";
 import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
 import {
     follow,
@@ -34,14 +34,38 @@ export type postsType = {
     message: string
     likesCount: number
 }
+
+export type profileType = {
+    aboutMe: string|null,
+    contacts: {
+        facebook: string|null,
+        website: string|null,
+        vk: string|null,
+        twitter: string|null,
+        instagram: string|null,
+        youtube: string|null,
+        github: string|null,
+        mainLink: string|null,
+    }
+    lookingForAJob: boolean|null,
+    lookingForAJobDescription: string|null,
+    fullName: string|null,
+    userId: number|null,
+    photos: {
+        small: string,
+        large: string
+    }
+
+}
 export type ProfilePageType = {
     posts: Array<postsType>
     newPostText: string
+    profile: profileType
 }
 export type DialogsPageType = {
     dialogs: Array<dialogsType>
     messages: Array<messagesType>
-    newDialogText: string
+    newDialogText: string,
 }
 export type UsersPageType = {
     users:Array<userType>,
@@ -86,7 +110,8 @@ export type ActionsTypes =
     ReturnType<typeof setUsers>|
     ReturnType<typeof setCurrentPage>|
     ReturnType<typeof setTotalUsersCount>|
-    ReturnType<typeof setToggleIsFetching>
+    ReturnType<typeof setToggleIsFetching>|
+    ReturnType<typeof setUserProfile>
 
 
 
@@ -102,6 +127,27 @@ const store: StoreType = {
                 {id: v1(), message: 'hello frend ', likesCount: 54},
             ],
             newPostText: "",
+            profile: {
+                aboutMe: "я круто чувак 1001%",
+                contacts: {
+                    facebook: "facebook.com",
+                    website: null,
+                    vk: "vk.com/dimych",
+                    twitter: "https://twitter.com/@sdf",
+                    instagram: "instagra.com/sds",
+                    youtube: null,
+                    github: "github.com",
+                    mainLink: null
+                },
+                lookingForAJob: true,
+                lookingForAJobDescription: "не ищу, а дурачусь",
+                fullName: "samurai dimych",
+                userId: 2,
+                photos: {
+                    small: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0",
+                    large: "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
+                }
+            },
         },
         dialogsPage: {
             dialogs: [
@@ -120,6 +166,7 @@ const store: StoreType = {
                 {id: v1(), message: "how are you"},
             ],
             newDialogText: "",
+
 
         },
         usersPage: {
