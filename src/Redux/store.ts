@@ -9,6 +9,7 @@ import {
     setToggleIsFetching,
     unfollow
 } from "./users-reducer";
+
 export type locationType = {
     city: string,
     country: string
@@ -36,20 +37,20 @@ export type postsType = {
 }
 
 export type profileType = {
-    aboutMe: string|null,
+    aboutMe: string | null,
     contacts: {
-        facebook: string|null,
-        website: string|null,
-        vk: string|null,
-        twitter: string|null,
-        instagram: string|null,
-        youtube: string|null,
-        github: string|null,
-        mainLink: string|null,
+        facebook: string | null,
+        website: string | null,
+        vk: string | null,
+        twitter: string | null,
+        instagram: string | null,
+        youtube: string | null,
+        github: string | null,
+        mainLink: string | null,
     }
-    lookingForAJob: boolean|null,
-    lookingForAJobDescription: string|null,
-    fullName: string|null,
+    lookingForAJob: boolean | null,
+    lookingForAJobDescription: string | null,
+    fullName: string | null,
     userId: number,
     photos: {
         small: string,
@@ -68,7 +69,7 @@ export type DialogsPageType = {
     newDialogText: string,
 }
 export type UsersPageType = {
-    users:Array<userType>,
+    users: Array<userType>,
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
@@ -80,7 +81,7 @@ export type RootStateType = {
     usersPage: UsersPageType
 }
 
-export type StoreType = {
+/*export type StoreType = {
     _state: RootStateType
     _callSubscriber: (state: RootStateType) => void,
     addPost: (postMessage: string) => void,
@@ -90,35 +91,24 @@ export type StoreType = {
     subscribe: (observer: (state: RootStateType) => void) => void,
     getState: () => RootStateType
     dispatch: (action: ActionsTypes) => void
-}
+}*/
 
-// export type ProfileActionsTypes =
-//     ReturnType<typeof addPostActionCreator> |
-//     ReturnType<typeof onPostChangeActionCreator>
-//
-// export type DialogsActionsTypes =
-//     ReturnType<typeof addDialogActionCreator> |
-//     ReturnType<typeof onDialogChangeActionCreator>
 
 export type ActionsTypes =
     ReturnType<typeof addPostActionCreator> |
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addDialogActionCreator> |
-    ReturnType<typeof onDialogChangeActionCreator>|
-    ReturnType<typeof follow>|
-    ReturnType<typeof unfollow>|
-    ReturnType<typeof setUsers>|
-    ReturnType<typeof setCurrentPage>|
-    ReturnType<typeof setTotalUsersCount>|
-    ReturnType<typeof setToggleIsFetching>|
+    ReturnType<typeof onDialogChangeActionCreator> |
+    ReturnType<typeof follow> |
+    ReturnType<typeof unfollow> |
+    ReturnType<typeof setUsers> |
+    ReturnType<typeof setCurrentPage> |
+    ReturnType<typeof setTotalUsersCount> |
+    ReturnType<typeof setToggleIsFetching> |
     ReturnType<typeof setUserProfile>
 
 
-
-
-
-
-const store: StoreType = {
+/*const store: StoreType = {
     _state: {
         profilePage: {
             posts: [
@@ -247,8 +237,8 @@ const store: StoreType = {
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
 
-            this._callSubscriber(this._state)
+        this._callSubscriber(this._state)
     }
-}
+}*/
 
-export default store;
+// export default store;
