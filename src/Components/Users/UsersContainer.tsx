@@ -10,8 +10,8 @@ import {
     setUsers,
     unfollow
 } from '../../Redux/users-reducer';
-import axios from 'axios';
-import { Preloader } from '../../common/preloader/Preloader';
+import {Preloader} from '../../common/preloader/Preloader';
+import {getUsers} from "../../api/api";
 
 
 type usersAPIComponentPropsType = {
@@ -32,28 +32,32 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
 
     componentDidMount() {
         this.props.setToggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+        getUsers(this.props.currentPage, this.props.pageSize)
+        /*axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
             withCredentials: true,
             headers: {
                 'api-key': '1ddb00ae-87fd-4067-9570-c868a2d6ade3'
-            }
-        }).then((res: any) => {
-            this.props.setUsers(res.data.items)
-            this.props.setTotalUsersCount(res.data.totalCount)
-            this.props.setToggleIsFetching(false)
-        });
+
+            })*/
+            .then((data: any) => {
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
+                this.props.setToggleIsFetching(false)
+            });
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
         this.props.setToggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
-            withCredentials: true,
-            headers: {
-                'api-key': '1ddb00ae-87fd-4067-9570-c868a2d6ade3'
-            }
-        }).then((res: any) => {
-            this.props.setUsers(res.data.items)
+            getUsers(pageNumber, this.props.pageSize)
+        // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
+        //     withCredentials: true,
+        //     headers: {
+        //         'api-key': '1ddb00ae-87fd-4067-9570-c868a2d6ade3'
+        //     }
+        // })
+            .then((data: any) => {
+            this.props.setUsers(data.items)
             this.props.setToggleIsFetching(false)
         });
     }
@@ -63,13 +67,13 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
         return (<>
             {this.props.isFetching ? <Preloader/> : null}
             <Users users={this.props.users}
-                        currentPage={this.props.currentPage}
-                        pageSize={this.props.pageSize}
-                        totalUsersCount={this.props.totalUsersCount}
-                        follow={this.props.follow}
-                        unfollow={this.props.unfollow}
-                        onPageChanged={this.onPageChanged}
-        />
+                   currentPage={this.props.currentPage}
+                   pageSize={this.props.pageSize}
+                   totalUsersCount={this.props.totalUsersCount}
+                   follow={this.props.follow}
+                   unfollow={this.props.unfollow}
+                   onPageChanged={this.onPageChanged}
+            />
         </>)
     }
 }
@@ -86,6 +90,12 @@ let mapStateToProps = (state: RootStateType) => {
 }
 
 
-
- export default connect (mapStateToProps, {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, setToggleIsFetching,})
- (UsersContainerComponent);
+export default connect(mapStateToProps, {
+    follow,
+    unfollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    setToggleIsFetching,
+})
+(UsersContainerComponent);
