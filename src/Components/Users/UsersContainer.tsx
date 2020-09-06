@@ -1,17 +1,18 @@
 import React from 'react';
 import {Users} from './Users';
 import {connect} from 'react-redux';
-import {RootStateType, userType} from '../../Redux/store';
+import {userType} from '../../Redux/store';
 import {
     follow,
     setCurrentPage,
-    setToggleIsFetching,
+    setToggleIsFetching, setToggleIsFollowingInProgress,
     setTotalUsersCount,
     setUsers,
     unfollow
 } from '../../Redux/users-reducer';
 import {Preloader} from '../../common/preloader/Preloader';
 import {getUsers} from "../../api/api";
+import {RootState} from "../../Redux/redux-store";
 
 
 type usersAPIComponentPropsType = {
@@ -22,10 +23,12 @@ type usersAPIComponentPropsType = {
     setCurrentPage: (pageNumber: number) => void
     setTotalUsersCount: (totalCount: number) => void
     setToggleIsFetching: (isFetching: boolean) => void
+    setToggleIsFollowingInProgress: (id: string, followingInProgress: boolean) => void
     totalUsersCount: number,
     pageSize: number,
     currentPage: number,
-    isFetching: boolean
+    isFetching: boolean,
+    followingInProgress: Array<string>
 }
 
 class UsersContainerComponent extends React.Component<usersAPIComponentPropsType> {
@@ -33,12 +36,6 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
     componentDidMount() {
         this.props.setToggleIsFetching(true)
         getUsers(this.props.currentPage, this.props.pageSize)
-        /*axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-            withCredentials: true,
-            headers: {
-                'api-key': '1ddb00ae-87fd-4067-9570-c868a2d6ade3'
-
-            })*/
             .then((data: any) => {
                 this.props.setUsers(data.items)
                 this.props.setTotalUsersCount(data.totalCount)
@@ -50,12 +47,6 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
         this.props.setCurrentPage(pageNumber)
         this.props.setToggleIsFetching(true)
             getUsers(pageNumber, this.props.pageSize)
-        // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
-        //     withCredentials: true,
-        //     headers: {
-        //         'api-key': '1ddb00ae-87fd-4067-9570-c868a2d6ade3'
-        //     }
-        // })
             .then((data: any) => {
             this.props.setUsers(data.items)
             this.props.setToggleIsFetching(false)
@@ -73,19 +64,21 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
                    follow={this.props.follow}
                    unfollow={this.props.unfollow}
                    onPageChanged={this.onPageChanged}
+                   followingInProgress={this.props.followingInProgress}
+                   setToggleIsFollowingInProgress={this.props.setToggleIsFollowingInProgress}
             />
         </>)
     }
 }
 
-let mapStateToProps = (state: RootStateType) => {
+let mapStateToProps = (state: RootState) => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
-
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
@@ -97,5 +90,6 @@ export default connect(mapStateToProps, {
     setCurrentPage,
     setTotalUsersCount,
     setToggleIsFetching,
+    setToggleIsFollowingInProgress
 })
 (UsersContainerComponent);
