@@ -1,3 +1,4 @@
+import {getAuth} from "../api/api";
 
 
 type initialStateType = {
@@ -41,6 +42,18 @@ export const setAuthUserDataAC = (userId: string, email: string, login: string):
     type: "SET_USER_DATA",
     data: {userId, email, login}
 }) as const
+
+export const getAuthThunkCreator = () => {
+    return (dispatch: any) => {
+        getAuth()
+            .then((data: any) => {
+                if (data.resultCode === 0) {
+                    let {id, email, login} = data.data
+                    dispatch(setAuthUserDataAC(id, email, login))
+                }
+            });
+    }
+}
 
 
 

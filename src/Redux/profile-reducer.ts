@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {postsType, ProfilePageType, profileType} from "./store";
+import {getProfile} from "../api/api";
 
 let initialState = {
     posts: [
@@ -82,7 +83,14 @@ type etUserProfileActionType = {
 }
 export let setUserProfile = (profile: profileType): etUserProfileActionType => ({type: "SET_USER_PROFILE", profile}) as const
 
-
+export const getUserProfileThunkCreator = (userId: string) => {
+    return (dispatch: any) => {
+        getProfile(userId)
+            .then(data => {
+                dispatch(setUserProfile(data))
+            });
+    }
+}
 
 
 

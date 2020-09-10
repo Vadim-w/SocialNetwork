@@ -5,6 +5,7 @@ import {profileType} from "../../Redux/store";
 
 type ProfilePropsType = {
     profile: profileType
+    isAuth: boolean
 }
 
 

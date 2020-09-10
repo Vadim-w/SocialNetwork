@@ -10,7 +10,9 @@ let mapStateToProps = (state: RootStateType) => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
-        newDialogText: state.dialogsPage.newDialogText
+        newDialogText: state.dialogsPage.newDialogText,
+        isAuth: state.auth.isAuth
+
     }
 }
 let mapDispatchToProps = (dispatch: (action: ActionsTypes) => void) => {
