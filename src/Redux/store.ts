@@ -1,13 +1,12 @@
-import {v1} from "uuid";
-import {profileReducer, addPostActionCreator, onPostChangeActionCreator, setUserProfile} from "./profile-reducer";
-import {addDialogActionCreator, dialogsReducer, onDialogChangeActionCreator} from "./dialogs-reducer";
+import { addPostActionCreator, onPostChangeActionCreator, setUserProfile} from "./profile-reducer";
+import {addDialogActionCreator, onDialogChangeActionCreator} from "./dialogs-reducer";
 import {
-    follow,
+    followAC,
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
     setToggleIsFetching,
-    unfollow
+    unfollowAC
 } from "./users-reducer";
 
 export type locationType = {
@@ -94,18 +93,18 @@ export type RootStateType = {
 }*/
 
 
-export type ActionsTypes =
-    ReturnType<typeof addPostActionCreator> |
-    ReturnType<typeof onPostChangeActionCreator> |
-    ReturnType<typeof addDialogActionCreator> |
-    ReturnType<typeof onDialogChangeActionCreator> |
-    ReturnType<typeof follow> |
-    ReturnType<typeof unfollow> |
-    ReturnType<typeof setUsers> |
-    ReturnType<typeof setCurrentPage> |
-    ReturnType<typeof setTotalUsersCount> |
-    ReturnType<typeof setToggleIsFetching> |
-    ReturnType<typeof setUserProfile>
+ // type ActionsTypes =
+ //    ReturnType<typeof addPostActionCreator> |
+ //    ReturnType<typeof onPostChangeActionCreator> |
+ //    ReturnType<typeof addDialogActionCreator> |
+ //    ReturnType<typeof onDialogChangeActionCreator> |
+ //    ReturnType<typeof followAC> |
+ //    ReturnType<typeof unfollowAC> |
+ //    ReturnType<typeof setUsers> |
+ //    ReturnType<typeof setCurrentPage> |
+ //    ReturnType<typeof setTotalUsersCount> |
+ //    ReturnType<typeof setToggleIsFetching> |
+ //    ReturnType<typeof setUserProfile>
 
 
 /*const store: StoreType = {

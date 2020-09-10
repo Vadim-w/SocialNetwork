@@ -1,4 +1,4 @@
-
+import {deleteFollow, getUsers, postFollow} from "../api/api";
 
 
 type locationType = {
@@ -6,7 +6,7 @@ type locationType = {
     country: string
 }
 
-type userType = {
+export type userType = {
     id: string,
     followed: boolean,
     name: string,
@@ -28,7 +28,7 @@ let initialState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 2,
+    currentPage: 1,
     isFetching: false,
     followingInProgress: []
 };
@@ -88,7 +88,7 @@ type followActionType = {
     userID: string
 }
 
-export const follow = (userID: string): followActionType => ({
+export const followAC = (userID: string): followActionType => ({
     type: "FOLLOW",
     userID
 }) as const
@@ -98,7 +98,7 @@ type unfollowActionType = {
     userID: string
 }
 
-export const unfollow = (userID: string): unfollowActionType => ({
+export const unfollowAC = (userID: string): unfollowActionType => ({
     type: "UNFOLLOW",
     userID
 }) as const
@@ -154,6 +154,51 @@ export const setToggleIsFollowingInProgress = ( userId: string, followingInProgr
     userId,
     followingInProgress
 }) as const
+
+
+
+export const getUsersThunkCreator =  (currentPage: number, pageSize: number) => {
+    return (dispatch: any) => {
+        dispatch(setToggleIsFetching(true))
+
+        getUsers(currentPage, pageSize)
+
+            .then((data: any) => {
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+                dispatch(setToggleIsFetching(false))
+                dispatch(setCurrentPage(currentPage))
+            });
+    }
+}
+
+export const followThunkCreator = (userID: string) => {
+    return (dispatch: any) => {
+        dispatch(setToggleIsFollowingInProgress(userID, true))
+        postFollow(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(followAC(userID))
+                }
+                dispatch(setToggleIsFollowingInProgress(userID, false))
+            });
+    }
+
+}
+
+export const unFollowThunkCreator = (userID: string) => {
+    return (dispatch: any) => {
+        dispatch(setToggleIsFollowingInProgress(userID, true))
+        deleteFollow(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(followAC(userID))
+                }
+                dispatch(setToggleIsFollowingInProgress(userID, false))
+            });
+    }
+
+}
 
 
 

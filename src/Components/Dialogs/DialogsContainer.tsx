@@ -1,8 +1,8 @@
 import React from 'react';
-import { addDialogActionCreator, onDialogChangeActionCreator} from '../../Redux/dialogs-reducer';
+import {ActionsTypes, addDialogActionCreator, onDialogChangeActionCreator} from '../../Redux/dialogs-reducer';
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {ActionsTypes, RootStateType} from "../../Redux/store";
+import {RootStateType} from "../../Redux/redux-store";
 
 
 

@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {postsType, ProfilePageType, ActionsTypes, profileType} from "./store";
+import {postsType, ProfilePageType, profileType} from "./store";
 
 let initialState = {
     posts: [
@@ -30,6 +30,8 @@ let initialState = {
         }
     }
 };
+
+export type ActionsTypes = addPostActionType | onPostChangeActionType | etUserProfileActionType
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
     switch (action.type) {
@@ -62,9 +64,23 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 
 }
-export let addPostActionCreator = (newPostText: string) => ({type: "ADD-POST", newPostText: newPostText}) as const
-export let onPostChangeActionCreator = (newText: string) => ({type: "UPDATE-NEW-POST-TEXT", newText: newText}) as const
-export let setUserProfile = (profile: profileType) => ({type: "SET_USER_PROFILE", profile}) as const
+type addPostActionType = {
+    type: "ADD-POST"
+    newPostText: string
+}
+export let addPostActionCreator = (newPostText: string): addPostActionType => ({type: "ADD-POST", newPostText: newPostText}) as const
+
+type onPostChangeActionType = {
+    type: "UPDATE-NEW-POST-TEXT"
+    newText: string
+}
+export let onPostChangeActionCreator = (newText: string): onPostChangeActionType => ({type: "UPDATE-NEW-POST-TEXT", newText: newText}) as const
+
+type etUserProfileActionType = {
+    type: "SET_USER_PROFILE"
+    profile: profileType
+}
+export let setUserProfile = (profile: profileType): etUserProfileActionType => ({type: "SET_USER_PROFILE", profile}) as const
 
 
 

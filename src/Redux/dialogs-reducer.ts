@@ -1,4 +1,4 @@
-import {messagesType, DialogsPageType, ActionsTypes} from "./store";
+import {messagesType, DialogsPageType} from "./store";
 import {v1} from "uuid";
 
 let initialState = {
@@ -20,6 +20,8 @@ let initialState = {
     newDialogText: "",
 
 };
+
+export type ActionsTypes = addDialogActionType | onDialogChangeActionType
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes) => {
 
@@ -46,11 +48,21 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
 
 }
 
-export let addDialogActionCreator = (newDialogText: string) => ({
+type addDialogActionType = {
+    type: "ADD-DIALOG",
+    newDialogText: string
+}
+
+export let addDialogActionCreator = (newDialogText: string): addDialogActionType => ({
     type: "ADD-DIALOG",
     newDialogText: newDialogText
 }) as const
-export let onDialogChangeActionCreator = (newText: string) => ({
+
+type onDialogChangeActionType = {
+    type: "UPDATE-NEW-DIALOG-TEXT",
+    newText: string
+}
+export let onDialogChangeActionCreator = (newText: string): onDialogChangeActionType => ({
     type: "UPDATE-NEW-DIALOG-TEXT",
     newText: newText
 }) as const
