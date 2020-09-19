@@ -3,8 +3,6 @@ import s from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogsItem';
 import Message from './Message/Message';
 import {dialogsType, messagesType} from '../../Redux/store';
-import { Redirect } from 'react-router-dom';
-
 
 type dialogsPropsType = {
     dialogs: Array<dialogsType>

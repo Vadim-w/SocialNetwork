@@ -34,29 +34,10 @@ class UsersContainerComponent extends React.Component<usersAPIComponentPropsType
 
     componentDidMount() {
         this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize)
-        // this.props.setToggleIsFetching(true)
-        //
-        // getUsers(this.props.currentPage, this.props.pageSize)
-        //
-        //     .then((data: any) => {
-        //         this.props.setUsers(data.items)
-        //         this.props.setTotalUsersCount(data.totalCount)
-        //         this.props.setToggleIsFetching(false)
-        //     });
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.getUsersThunkCreator(pageNumber, this.props.pageSize)
-
-        /*this.props.setCurrentPage(pageNumber)
-        this.props.setToggleIsFetching(true)
-
-            getUsers(pageNumber, this.props.pageSize)
-
-            .then((data: any) => {
-            this.props.setUsers(data.items)
-            this.props.setToggleIsFetching(false)
-        });*/
     }
 
 
@@ -88,7 +69,7 @@ let mapStateToProps = (state: RootStateType) => {
     }
 }
 
-export default compose(
+export default compose<React.ComponentType>(
     WithAuthRedirect,
     connect(mapStateToProps, {
         unFollowThunkCreator,

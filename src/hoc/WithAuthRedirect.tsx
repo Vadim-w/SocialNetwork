@@ -3,12 +3,12 @@ import React from "react";
 import {RootStateType} from "../Redux/redux-store";
 import {connect} from "react-redux";
 
-type  RedirectComponentTypeNative = {
+type  RedirectComponentTypeProps = {
     isAuth: boolean
 }
 
-export const WithAuthRedirect = (Component: React.ComponentType<T>) => {
-    class RedirectComponent extends React.Component <RedirectComponentTypeNative>{
+export const WithAuthRedirect = (Component: React.ComponentType) => {
+     class RedirectComponent extends React.Component <RedirectComponentTypeProps>{
         render() {
             if (!this.props.isAuth) return <Redirect to={'/login'}/>
             return <Component {...this.props}/>
