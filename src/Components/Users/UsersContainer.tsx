@@ -10,6 +10,8 @@ import {
 } from '../../Redux/users-reducer';
 import {Preloader} from '../../common/preloader/Preloader';
 import {RootStateType} from "../../Redux/redux-store";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 
 type usersAPIComponentPropsType = {
@@ -86,13 +88,14 @@ let mapStateToProps = (state: RootStateType) => {
     }
 }
 
-
-export default connect(mapStateToProps, {
-    unFollowThunkCreator,
-    followThunkCreator,
-    getUsersThunkCreator,
-    setCurrentPage,
-    setTotalUsersCount,
-    setToggleIsFollowingInProgress
-})
-(UsersContainerComponent);
+export default compose(
+    WithAuthRedirect,
+    connect(mapStateToProps, {
+        unFollowThunkCreator,
+        followThunkCreator,
+        getUsersThunkCreator,
+        setCurrentPage,
+        setTotalUsersCount,
+        setToggleIsFollowingInProgress
+    })
+)(UsersContainerComponent)
