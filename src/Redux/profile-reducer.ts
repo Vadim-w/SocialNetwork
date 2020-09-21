@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {postsType, ProfilePageType, profileType} from "./store";
-import {getProfile} from "../api/api";
+import {profileAPI} from "../api/api";
 
 let initialState = {
     posts: [
@@ -9,30 +9,31 @@ let initialState = {
         {id: v1(), message: 'hello frend ', likesCount: 54},
     ],
     newPostText: "",
+    status: "",
     profile: {
-        aboutMe: "я круто чувак 1001%",
+        aboutMe: "",
         contacts: {
-            facebook: "facebook.com",
+            facebook: "",
             website: null,
-            vk: "vk.com/dimych",
-            twitter: "https://twitter.com/@sdf",
-            instagram: "instagra.com/sds",
+            vk: "",
+            twitter: "",
+            instagram: "",
             youtube: null,
-            github: "github.com",
+            github: "",
             mainLink: null
         },
         lookingForAJob: true,
-        lookingForAJobDescription: "не ищу, а дурачусь",
-        fullName: "samurai dimych",
-        userId: 2,
+        lookingForAJobDescription: "",
+        fullName: "",
+        userId: 0,
         photos: {
-            small: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0",
-            large: "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
-        }
+            small: "",
+            large: ""
+        },
     }
 };
 
-export type ActionsTypes = addPostActionType | onPostChangeActionType | etUserProfileActionType
+export type ActionsTypes = addPostActionType | onPostChangeActionType | setUserProfileActionType | setUserStatusActionType
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
     switch (action.type) {
@@ -58,6 +59,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 ...state,
                 profile: action.profile
             }
+        case "SET_USER_STATUS":
+            return {
+                ...state,
+                status: action.status
+            }
 
         default:
             return state;
@@ -77,18 +83,44 @@ type onPostChangeActionType = {
 }
 export let onPostChangeActionCreator = (newText: string): onPostChangeActionType => ({type: "UPDATE-NEW-POST-TEXT", newText: newText}) as const
 
-type etUserProfileActionType = {
+type setUserProfileActionType = {
     type: "SET_USER_PROFILE"
     profile: profileType
 }
-export let setUserProfile = (profile: profileType): etUserProfileActionType => ({type: "SET_USER_PROFILE", profile}) as const
+export let setUserProfile = (profile: profileType): setUserProfileActionType => ({type: "SET_USER_PROFILE", profile}) as const
+
+type setUserStatusActionType = {
+    type: "SET_USER_STATUS"
+    status: string
+}
+export const setUserStatus = (status: string): setUserStatusActionType =>( {type: "SET_USER_STATUS", status}) as const
 
 export const getUserProfileThunkCreator = (userId: string) => {
     return (dispatch: any) => {
-        getProfile(userId)
+        profileAPI.getProfile(userId)
             .then(data => {
                 dispatch(setUserProfile(data))
             });
+    }
+}
+export const getUserStatus = (userId: string) => {
+    return (dispatch: any) => {
+        profileAPI.getStatus(userId)
+            .then(response => {
+                dispatch(setUserStatus(response.data))
+            })
+    }
+}
+export const updateUserStatus = (status: string) => {
+    debugger
+    return (dispatch: any) => {
+        profileAPI.updateStatus(status)
+            .then(response => {
+                debugger
+                if(response.data.resultCode === 0) {
+                    dispatch(setUserStatus(status))
+                }
+            })
     }
 }
 

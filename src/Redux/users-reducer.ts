@@ -1,4 +1,4 @@
-import {deleteFollow, getUsers, postFollow} from "../api/api";
+import {usersAPI} from "../api/api";
 
 
 type locationType = {
@@ -161,7 +161,7 @@ export const getUsersThunkCreator =  (currentPage: number, pageSize: number) => 
     return (dispatch: any) => {
         dispatch(setToggleIsFetching(true))
 
-        getUsers(currentPage, pageSize)
+        usersAPI.getUsers(currentPage, pageSize)
 
             .then((data: any) => {
                 dispatch(setUsers(data.items))
@@ -175,7 +175,7 @@ export const getUsersThunkCreator =  (currentPage: number, pageSize: number) => 
 export const followThunkCreator = (userID: string) => {
     return (dispatch: any) => {
         dispatch(setToggleIsFollowingInProgress(userID, true))
-        postFollow(userID)
+        usersAPI.follow(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     dispatch(followAC(userID))
@@ -189,7 +189,7 @@ export const followThunkCreator = (userID: string) => {
 export const unFollowThunkCreator = (userID: string) => {
     return (dispatch: any) => {
         dispatch(setToggleIsFollowingInProgress(userID, true))
-        deleteFollow(userID)
+        usersAPI.unFollow(userID)
             .then(data => {
                 if (data.resultCode === 0) {
                     dispatch(followAC(userID))

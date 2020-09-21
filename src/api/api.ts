@@ -8,29 +8,41 @@ const instanse = axios.create({
     }
 })
 
-export const getUsers = (currentPage: number, pageSize: number) => {
-    return instanse.get(`users?page=${currentPage}&count=${pageSize}`, {
-        }).then(response => response.data)}
 
-export const  getAuth = () => {
-    return  instanse.get(`auth/me`)
-        .then((response: any) => response.data);
+export const usersAPI = {
+    getUsers(currentPage: number = 1, pageSize: number = 10) {
+        return instanse.get(`users?page=${currentPage}&count=${pageSize}`, {
+        }).then(response => response.data)
+    },
+    follow (userId: string) {
+        return instanse.post(`follow/${userId}`, {}, {})
+            .then(response => response.data);
+    },
+    unFollow(userId: string) {
+        return instanse.delete(`follow/${userId}`,)
+            .then(response => response.data);
+    },
+    getAuth() {
+        return instanse.get(`auth/me`)
+            .then((response: any) => response.data);
+    }
 }
 
-export const getProfile = (userId: string) => {
-    return instanse.get(`profile/` + userId)
-        .then(response => response.data);
+export const profileAPI = {
+    getProfile(userId: string) {
+        return instanse.get(`profile/` + userId)
+            .then(response => response.data);
+    },
+    getStatus(userID: string) {
+        return instanse.get( `profile/status/`+ userID)
+    },
+    updateStatus(status: string) {
+        debugger
+        return instanse.put(`profile/status`, {status} )
+    }
 }
 
-export const deleteFollow = (userId: string) => {
-    return instanse.delete(`follow/${userId}`,)
-        .then(response => response.data);
-}
 
-export const  postFollow = (userId: string) => {
-    return instanse.post(`follow/${userId}`, {}, {})
-        .then(response => response.data);
-}
 
 
 

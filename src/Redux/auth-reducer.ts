@@ -1,4 +1,4 @@
-import {getAuth} from "../api/api";
+import {usersAPI} from "../api/api";
 
 
 type initialStateType = {
@@ -45,7 +45,7 @@ export const setAuthUserDataAC = (userId: string, email: string, login: string):
 
 export const getAuthThunkCreator = () => {
     return (dispatch: any) => {
-        getAuth()
+        usersAPI.getAuth()
             .then((data: any) => {
                 if (data.resultCode === 0) {
                     let {id, email, login} = data.data
