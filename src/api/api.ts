@@ -37,7 +37,6 @@ export const profileAPI = {
         return instanse.get( `profile/status/`+ userID)
     },
     updateStatus(status: string) {
-        debugger
         return instanse.put(`profile/status`, {status} )
     }
 }

@@ -112,7 +112,6 @@ export const getUserStatus = (userId: string) => {
     }
 }
 export const updateUserStatus = (status: string) => {
-    debugger
     return (dispatch: any) => {
         profileAPI.updateStatus(status)
             .then(response => {
