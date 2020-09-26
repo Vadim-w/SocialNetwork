@@ -1,7 +1,21 @@
-import {messagesType, DialogsPageType} from "./store";
 import {v1} from "uuid";
 
-let initialState = {
+export type dialogsType = {
+    id: string
+    name: string
+}
+
+export type messagesType = {
+    id: string
+    message: string
+}
+
+export type DialogsPageType = {
+    dialogs: Array<dialogsType>
+    messages: Array<messagesType>
+}
+
+let initialState: DialogsPageType = {
     dialogs: [
         {id: v1(), name: "Vasya"},
         {id: v1(), name: "Oleg"},
@@ -17,30 +31,21 @@ let initialState = {
         {id: v1(), message: "hello"},
         {id: v1(), message: "how are you"},
     ],
-    newDialogText: "",
-
 };
 
-export type ActionsTypes = addDialogActionType | onDialogChangeActionType
+export type ActionsTypes = addDialogActionType
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes) => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes): DialogsPageType => {
 
     switch (action.type) {
         case "ADD-DIALOG":
             let newDialog: messagesType = {
                 id: v1(),
-                message: action.newDialogText,
+                message: action.newDialogText
             }
             return {
                 ...state,
-                newDialogText: "",
                 messages: [...state.messages, newDialog]
-            };
-
-        case "UPDATE-NEW-DIALOG-TEXT":
-            return {
-                ...state,
-                newDialogText: action.newText
             };
         default:
             return state;
@@ -58,12 +63,5 @@ export let addDialogActionCreator = (newDialogText: string): addDialogActionType
     newDialogText: newDialogText
 }) as const
 
-type onDialogChangeActionType = {
-    type: "UPDATE-NEW-DIALOG-TEXT",
-    newText: string
-}
-export let onDialogChangeActionCreator = (newText: string): onDialogChangeActionType => ({
-    type: "UPDATE-NEW-DIALOG-TEXT",
-    newText: newText
-}) as const
+
 
