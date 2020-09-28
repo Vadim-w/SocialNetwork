@@ -8,13 +8,12 @@ import Music from './Components/Music/Music';
 import UsersContainerComponent from './Components/Users/UsersContainer';
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from './Components/Header/HeaderContainer';
-import { Login } from './Components/Login/Login';
+import Login  from './Components/Login/Login';
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 
 
 const App = () => {
-
     return (
             <div className='app-wraper'>
                 <HeaderContainer/>

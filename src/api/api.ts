@@ -1,5 +1,16 @@
 import axios from "axios";
 
+type CommonResponseType<T = {}> = {
+    resultCode: number
+    messages: Array<string>
+    data: T
+}
+type getAuthTypeResponse = {
+    id: string
+    email: string
+    login: string
+}
+
 const instanse = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
@@ -22,10 +33,6 @@ export const usersAPI = {
         return instanse.delete(`follow/${userId}`,)
             .then(response => response.data);
     },
-    getAuth() {
-        return instanse.get(`auth/me`)
-            .then((response: any) => response.data);
-    }
 }
 
 export const profileAPI = {
@@ -38,6 +45,18 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instanse.put(`profile/status`, {status} )
+    }
+}
+
+export const authAPI = {
+    getAuth() {
+        return instanse.get<CommonResponseType<getAuthTypeResponse>>(`auth/me`)
+    },
+    login(email: string, password: string, rememberMe:boolean = false) {
+        return instanse.post<CommonResponseType<{userId: string}>>(`auth/login`, {email, password, rememberMe})
+    },
+    logout() {
+        return instanse.delete<CommonResponseType>(`auth/login`,)
     }
 }
 
