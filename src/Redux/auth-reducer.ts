@@ -1,5 +1,8 @@
 import {authAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {ThunkAction} from "redux-thunk";
+import {RootStateType} from "./redux-store";
+import {FormAction} from "redux-form/lib/actions";
 
 
 type initialStateType = {
@@ -18,7 +21,6 @@ let initialState = {
     isAuth: false
 };
 
-type ActionTypes = setUserDataActionType
 
 export const authReducer = (state: initialStateType = initialState, action: ActionTypes) => {
     switch (action.type) {
@@ -33,18 +35,18 @@ export const authReducer = (state: initialStateType = initialState, action: Acti
     }
 }
 
-export type setUserDataActionType = {
+export type setAuthUserDataActionType = {
     type: "SET_USER_DATA"
     payload: {userId: string, email: string, login: string, isAuth: boolean}
 }
 
-export const setAuthUserDataAC = (userId: string, email: string, login: string, isAuth: boolean): setUserDataActionType => ({
+export const setAuthUserDataAC = (userId: string, email: string, login: string, isAuth: boolean): setAuthUserDataActionType => ({
     type: "SET_USER_DATA",
     payload: {userId, email, login, isAuth}
 }) as const
 
-export const getAuthThunkCreator = () => {
-    return (dispatch: any) => {
+export const getAuthThunkCreator = (): ThunkType => {
+    return (dispatch) => {
         authAPI.getAuth()
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -55,8 +57,8 @@ export const getAuthThunkCreator = () => {
     }
 }
 
-export const loginTC = (email: string, password: string, rememberMe: boolean = false ) => {
-    return (dispatch: any) => {
+export const loginTC = (email: string, password: string, rememberMe: boolean = false ): ThunkType => {
+    return (dispatch) => {
         authAPI.login(email, password, rememberMe)
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -70,8 +72,8 @@ export const loginTC = (email: string, password: string, rememberMe: boolean = f
     }
 }
 
-export const logoutTC = () => {
-    return (dispatch: any) => {
+export const logoutTC = (): ThunkType => {
+    return (dispatch) => {
         authAPI.logout()
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -81,6 +83,9 @@ export const logoutTC = () => {
     }
 }
 
+type ActionTypes = setAuthUserDataActionType | FormAction
+
+type ThunkType =  ThunkAction<any, RootStateType, unknown, ActionTypes>
 
 
 

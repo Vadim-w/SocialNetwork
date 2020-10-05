@@ -35,6 +35,9 @@ class ProfileContainer extends React.Component<CommonPropsType> {
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = this.props.authorizedUserID;
+            if (!userId) {
+                this.props.history.push("/login")
+            }
         }
         this.props.getUserProfileThunkCreator(userId)
         this.props.getUserStatus(userId)
