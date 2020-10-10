@@ -1,0 +1,14 @@
+.statusSpan {
+    font-size: 20px;
+    border-radius: 20px;
+    font-family: -apple-system sans-serif;
+}
+.statusInput {
+    width: 200px;
+    height: 40px;
+    padding: 0 10px 0 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: cornflowerblue;
+    outline: none;
+}
