@@ -15,7 +15,7 @@ type postFormDataType = {
     post: string
 }
 
-export const MyPosts: React.FC<myPostsPropsType> = (props) => {
+export const MyPosts: React.FC<myPostsPropsType> = React.memo((props) => {
 
     let postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
     const addPost = (value: postFormDataType) => {
@@ -33,9 +33,9 @@ export const MyPosts: React.FC<myPostsPropsType> = (props) => {
             </div>
         </div>
     );
-}
+})
 
-const maxLength10 = naxLength(10)
+
 
 const AddPostForm: React.FC<InjectedFormProps<postFormDataType>> = (props) => {
     return (
@@ -46,5 +46,6 @@ const AddPostForm: React.FC<InjectedFormProps<postFormDataType>> = (props) => {
     )
 }
 
+const maxLength10 = naxLength(10)
 const PostReduxForm = reduxForm<postFormDataType>({form: "post"}) (AddPostForm)
 

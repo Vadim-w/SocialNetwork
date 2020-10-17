@@ -1,40 +1,6 @@
 import {v1} from "uuid";
 import {profileAPI} from "../api/api";
 
-export type ProfilePageType = {
-    posts: Array<postsType>
-    profile: profileType,
-    status: string
-}
-
-export type postsType = {
-    id: string
-    message: string
-    likesCount: number
-}
-
-export type profileType = {
-    aboutMe: string | null,
-    contacts: {
-        facebook: string | null,
-        website: string | null,
-        vk: string | null,
-        twitter: string | null,
-        instagram: string | null,
-        youtube: string | null,
-        github: string | null,
-        mainLink: string | null,
-    }
-    lookingForAJob: boolean | null,
-    lookingForAJobDescription: string | null,
-    fullName: string | null,
-    userId: number,
-    photos: {
-        small: string,
-        large: string
-    }
-}
-
 
 let initialState: ProfilePageType = {
     posts: [
@@ -66,8 +32,6 @@ let initialState: ProfilePageType = {
     }
 };
 
-export type ActionsTypes = addPostActionType | setUserProfileActionType | setUserStatusActionType
-
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST': {
@@ -91,6 +55,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 ...state,
                 status: action.status
             }
+        case "DELETE-POST":
+            return {...state, posts: state.posts.filter(p => p.id !== action.postID)}
 
         default:
             return state;
@@ -98,28 +64,16 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 
 }
-type addPostActionType = {
-    type: "ADD-POST"
-    newPostText: string
-}
-export let addPostActionCreator = (newPostText: string): addPostActionType => ({
-    type: "ADD-POST",
-    newPostText: newPostText
-}) as const
 
-type setUserProfileActionType = {
-    type: "SET_USER_PROFILE"
-    profile: profileType
-}
-export let setUserProfile = (profile: profileType): setUserProfileActionType => ({
+export const addPostActionCreator = (newPostText: string): addPostActionType => ({
+    type: "ADD-POST",
+    newPostText
+}) as const
+export const deletePostAC = (postID: string)  => ({type: "DELETE-POST", postID} as const)
+export const setUserProfile = (profile: profileType): setUserProfileActionType => ({
     type: "SET_USER_PROFILE",
     profile
 }) as const
-
-type setUserStatusActionType = {
-    type: "SET_USER_STATUS"
-    status: string
-}
 export const setUserStatus = (status: string): setUserStatusActionType => ({type: "SET_USER_STATUS", status}) as const
 
 export const getUserProfileThunkCreator = (userId: string) => {
@@ -149,6 +103,57 @@ export const updateUserStatus = (status: string) => {
             })
     }
 }
+
+
+export type ActionsTypes = addPostActionType | setUserProfileActionType | setUserStatusActionType | ReturnType<typeof deletePostAC>
+type setUserStatusActionType = {
+    type: "SET_USER_STATUS"
+    status: string
+}
+type setUserProfileActionType = {
+    type: "SET_USER_PROFILE"
+    profile: profileType
+}
+type addPostActionType = {
+    type: "ADD-POST"
+    newPostText: string
+}
+
+export type ProfilePageType = {
+    posts: Array<postsType>
+    profile: profileType,
+    status: string
+}
+export type postsType = {
+    id: string
+    message: string
+    likesCount: number
+}
+export type profileType = {
+    aboutMe: string | null,
+    contacts: {
+        facebook: string | null,
+        website: string | null,
+        vk: string | null,
+        twitter: string | null,
+        instagram: string | null,
+        youtube: string | null,
+        github: string | null,
+        mainLink: string | null,
+    }
+    lookingForAJob: boolean | null,
+    lookingForAJobDescription: string | null,
+    fullName: string | null,
+    userId: number,
+    photos: {
+        small: string,
+        large: string
+    }
+}
+
+
+
+
 
 
 
