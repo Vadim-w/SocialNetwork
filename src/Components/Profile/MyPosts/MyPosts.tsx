@@ -4,7 +4,7 @@ import Post from "./Post/Post";
 import {reduxForm, Field, InjectedFormProps} from "redux-form";
 import {postsType} from "../../../Redux/profile-reducer";
 import {naxLength, requiredField} from "../../../utils/validators/Validators";
-import {Textarea} from "../../../common/FormsControls/FormsControls";
+import {createField, Input, Textarea} from "../../../common/FormsControls/FormsControls";
 
 
 type myPostsPropsType = {
@@ -40,12 +40,12 @@ export const MyPosts: React.FC<myPostsPropsType> = React.memo((props) => {
 const AddPostForm: React.FC<InjectedFormProps<postFormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            <Field  validate={[requiredField, maxLength10]} placeholder={"Post message"} name={"post"} component={Textarea} />
+            {createField("Post message", "post", [requiredField, maxLength100], Textarea)}
             <button>Add post</button>
         </form>
     )
 }
 
-const maxLength10 = naxLength(10)
+const maxLength100 = naxLength(100)
 const PostReduxForm = reduxForm<postFormDataType>({form: "post"}) (AddPostForm)
 

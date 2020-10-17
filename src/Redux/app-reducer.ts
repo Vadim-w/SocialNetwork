@@ -24,9 +24,7 @@ export const appReducer = (state: initialStateType = initialState, action: Actio
     }
 }
 
-export const setInitializedAC = () => ({
-    type: "SET_INITIALIZED"
-}) as const
+export const setInitializedAC = () => ({type: "SET_INITIALIZED"} as const)
 
 
 export const setInitializedAppTC = (): ThunkAction<any, RootStateType, unknown, ActionTypes> =>

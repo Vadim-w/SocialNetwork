@@ -46,40 +46,34 @@ export const setAuthUserDataAC = (userId: string, email: string, login: string, 
 }) as const
 
 export const getAuthThunkCreator = (): ThunkType => {
-    return (dispatch) => {
-        authAPI.getAuth()
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    let {id, email, login} = res.data.data
+    return async (dispatch) => {
+       let response = await authAPI.getAuth()
+                if (response.data.resultCode === 0) {
+                    let {id, email, login} = response.data.data
                     dispatch(setAuthUserDataAC(id, email, login, true))
                 }
-            });
     }
 }
 
 export const loginTC = (email: string, password: string, rememberMe: boolean = false ): ThunkType => {
-    return (dispatch) => {
-        authAPI.login(email, password, rememberMe)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
+    return  async (dispatch) => {
+      let response = await authAPI.login(email, password, rememberMe)
+                if (response.data.resultCode === 0) {
                     dispatch(getAuthThunkCreator())
                 }
                 else {
-                   let message =  res.data.messages.length > 0 ? res.data.messages[0] : "Some error"
+                   let message =  response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
                     dispatch(stopSubmit("login", {_error: message}))
                 }
-            });
     }
 }
 
 export const logoutTC = (): ThunkType => {
-    return (dispatch) => {
-        authAPI.logout()
-            .then((res) => {
-                if (res.data.resultCode === 0) {
+    return async (dispatch) => {
+        let response = await authAPI.logout()
+                if (response.data.resultCode === 0) {
                     dispatch(setAuthUserDataAC("", "", "", false))
                 }
-            });
     }
 }
 

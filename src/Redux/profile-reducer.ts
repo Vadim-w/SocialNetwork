@@ -60,52 +60,44 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
         default:
             return state;
-
     }
-
 }
 
-export const addPostActionCreator = (newPostText: string): addPostActionType => ({
-    type: "ADD-POST",
-    newPostText
-}) as const
+//action creators
+export const addPostActionCreator = (newPostText: string): addPostActionType => ({type: "ADD-POST", newPostText} as const)
 export const deletePostAC = (postID: string)  => ({type: "DELETE-POST", postID} as const)
-export const setUserProfile = (profile: profileType): setUserProfileActionType => ({
-    type: "SET_USER_PROFILE",
-    profile
-}) as const
+export const setUserProfile = (profile: profileType): setUserProfileActionType => ({type: "SET_USER_PROFILE", profile} as const)
 export const setUserStatus = (status: string): setUserStatusActionType => ({type: "SET_USER_STATUS", status}) as const
 
+//thunks creators
 export const getUserProfileThunkCreator = (userId: string) => {
-    return (dispatch: any) => {
-        profileAPI.getProfile(userId)
-            .then(data => {
+    return async (dispatch: any) => {
+        const data = await profileAPI.getProfile(userId)
                 dispatch(setUserProfile(data))
-            });
     }
 }
 export const getUserStatus = (userId: string) => {
-    return (dispatch: any) => {
-        profileAPI.getStatus(userId)
-            .then(response => {
+    return async (dispatch: any) => {
+      const response = await profileAPI.getStatus(userId)
                 dispatch(setUserStatus(response.data))
-            })
     }
 }
 export const updateUserStatus = (status: string) => {
-    return (dispatch: any) => {
-        profileAPI.updateStatus(status)
-            .then(response => {
-                debugger
+    return async (dispatch: any) => {
+        const response = await profileAPI.updateStatus(status)
                 if (response.data.resultCode === 0) {
                     dispatch(setUserStatus(status))
                 }
-            })
     }
 }
 
+//types
+export type ActionsTypes =
+    | addPostActionType
+    | setUserProfileActionType
+    | setUserStatusActionType
+    | ReturnType<typeof deletePostAC>
 
-export type ActionsTypes = addPostActionType | setUserProfileActionType | setUserStatusActionType | ReturnType<typeof deletePostAC>
 type setUserStatusActionType = {
     type: "SET_USER_STATUS"
     status: string
