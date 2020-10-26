@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NavBar from "./Components/Navbar/Navbar";
-import {Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
@@ -10,10 +10,10 @@ import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {setInitializedAppTC} from "./Redux/app-reducer";
-import {RootStateType} from "./Redux/redux-store";
+import {RootStateType, store} from "./Redux/redux-store";
 import {Preloader} from "./common/preloader/Preloader";
 
 type AppContainerPropsType = {
@@ -55,6 +55,16 @@ const mapStateToProps = (state: RootStateType) => ({
 })
 
 
-export default compose(
+let AppContainer = compose(
     withRouter,
     connect(mapStateToProps, {setInitializedAppTC}))(App) as React.ComponentType;
+
+export const MainApp = () => {
+    return (
+    <BrowserRouter>
+        <Provider store={store}>
+            <AppContainer/>
+        </Provider>
+    </BrowserRouter>
+    )
+}
