@@ -2,7 +2,6 @@ import {usersAPI} from "../api/api";
 import {RootStateType} from "./redux-store";
 import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
-import {updateObjectInArray} from "../utils/objects-helpers";
 
 let initialState = {
     users: [],
@@ -18,7 +17,6 @@ export const usersReducer = (state: initialStateType = initialState, action: Act
         case "FOLLOW":
             return {
                 ...state,
-                //users: updateObjectInArray(state.users, action.userID, 'id', {followed: true})
                 users: state.users.map(u => {
                     if (u.id === action.userID) {
                         return {...u, followed: true}

@@ -6,15 +6,20 @@ import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
 import UsersContainerComponent from './Components/Users/UsersContainer';
-import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
-import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {setInitializedAppTC} from "./Redux/app-reducer";
 import {RootStateType, store} from "./Redux/redux-store";
 import {Preloader} from "./common/preloader/Preloader";
+import {WithSuspense} from "./hoc/WithSuspense";
+
+//import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+//import ProfileContainer from "./Components/Profile/ProfileContainer";
+
+const DialogsContainer = React.lazy(() => import('./Components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./Components/Profile/ProfileContainer'));
 
 type AppContainerPropsType = {
     setInitializedAppTC: () => void
@@ -36,8 +41,8 @@ class App extends React.Component<AppContainerPropsType> {
                 <HeaderContainer/>
                 <NavBar/>
                 <div className='app-wraper-content'>
-                    <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
-                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                    <Route path={'/dialogs'} render={WithSuspense(DialogsContainer)}/>
+                    <Route path={'/profile/:userId?'} render={WithSuspense(ProfileContainer)}/>
                     <Route path={'/users'} render={() => <UsersContainerComponent/>}/>
                     <Route path={'/login'} render={() => <Login/>}/>
 
@@ -46,7 +51,8 @@ class App extends React.Component<AppContainerPropsType> {
                     <Route path={'/settings'} render={() => <Settings/>}/>
                 </div>
             </div>
-        );
+        )
+            ;
     }
 }
 
@@ -61,10 +67,10 @@ let AppContainer = compose(
 
 export const MainApp = () => {
     return (
-    <BrowserRouter>
-        <Provider store={store}>
-            <AppContainer/>
-        </Provider>
-    </BrowserRouter>
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </BrowserRouter>
     )
 }
