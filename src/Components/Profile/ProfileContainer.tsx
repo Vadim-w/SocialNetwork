@@ -5,7 +5,7 @@ import {
     getUserProfileThunkCreator,
     getUserStatus,
     profileType,
-    savePhoto,
+    savePhoto, saveProfile,
     updateUserStatus
 } from "../../Redux/profile-reducer";
 import {withRouter, RouteComponentProps} from 'react-router-dom';
@@ -33,6 +33,7 @@ type MapDispatchPropsType = {
     getUserStatus: (userId: string) => void
     updateUserStatus: (tatus: string) => void
     savePhoto: (photo: File) => void
+    saveProfile: (profile: profileType) => void
 }
 
 
@@ -70,6 +71,7 @@ class ProfileContainer extends React.Component<CommonPropsType> {
                       status={this.props.status}
                       updateUserStatus={this.props.updateUserStatus}
                       savePhoto={this.props.savePhoto}
+                      saveProfile={this.props.saveProfile}
             />
         );
     }
@@ -84,7 +86,7 @@ let mapStateToProps = (state: RootStateType) => ({
 
 export default compose<React.ComponentType>(
     WithAuthRedirect,
-    connect(mapStateToProps, {getUserProfileThunkCreator, getUserStatus, updateUserStatus, savePhoto}),
+    connect(mapStateToProps, {getUserProfileThunkCreator, getUserStatus, updateUserStatus, savePhoto, saveProfile}),
     withRouter,
 )(ProfileContainer)
 

@@ -9,6 +9,7 @@ type ProfilePropsType = {
     updateUserStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (photo: File) => void
+    saveProfile: (profile: profileType) => void
 }
 
 
@@ -16,6 +17,7 @@ const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo
+                saveProfile={props.saveProfile}
                 profile={props.profile}
                 status={props.status}
                 updateUserStatus={props.updateUserStatus}

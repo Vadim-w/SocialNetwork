@@ -1,4 +1,5 @@
 import axios from "axios";
+import {profileType} from "../Redux/profile-reducer";
 
 type CommonResponseType<T = {}> = {
     resultCode: number
@@ -54,6 +55,9 @@ export const profileAPI = {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    },
+    saveProfile(profile: profileType) {
+        return instanse.put( 'profile', profile)
     }
 }
 
@@ -61,11 +65,18 @@ export const authAPI = {
     getAuth() {
         return instanse.get<CommonResponseType<getAuthTypeResponse>>(`auth/me`)
     },
-    login(email: string, password: string, rememberMe:boolean = false) {
-        return instanse.post<CommonResponseType<{userId: string}>>(`auth/login`, {email, password, rememberMe})
+    login(email: string, password: string, rememberMe:boolean = false, captcha: string |null = null) {
+        return instanse.post<CommonResponseType<{userId: string}>>(`auth/login`, {email, password, rememberMe, captcha})
     },
     logout() {
         return instanse.delete<CommonResponseType>(`auth/login`,)
+    }
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        debugger
+        return instanse.get('security/get-captcha-url')
     }
 }
 

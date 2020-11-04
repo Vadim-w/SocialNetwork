@@ -1,6 +1,8 @@
 import {v1} from "uuid";
 import {profileAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {RootStateType} from "./redux-store";
+import {stopSubmit} from "redux-form";
 
 
 let initialState: ProfilePageType = {
@@ -14,13 +16,13 @@ let initialState: ProfilePageType = {
         aboutMe: "",
         contacts: {
             facebook: "",
-            website: null,
+            website: "",
             vk: "",
             twitter: "",
             instagram: "",
-            youtube: null,
+            youtube: "",
             github: "",
-            mainLink: null
+            mainLink: ""
         },
         lookingForAJob: true,
         lookingForAJobDescription: "",
@@ -88,6 +90,18 @@ export const savePhoto = (photo: File) => {
         }
     }
 }
+export const saveProfile = (profile: profileType) => {
+    return async (dispatch: Dispatch<any>, getState: () => RootStateType) => {
+        const userID = getState().auth.userId
+        const response = await profileAPI.saveProfile(profile)
+        if (response.data.resultCode === 0) {
+            dispatch(getUserProfileThunkCreator(userID))
+        } else {
+            dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}))
+            return Promise.reject(response.data.messages[0])
+        }
+    }
+}
 
 //types
 export type ActionsTypes =
@@ -123,14 +137,15 @@ export type postsType = {
 export type profileType = {
     aboutMe: string | null,
     contacts: {
-        facebook: string | null,
-        website: string | null,
-        vk: string | null,
-        twitter: string | null,
-        instagram: string | null,
-        youtube: string | null,
-        github: string | null,
-        mainLink: string | null,
+        [key: string]: string
+        facebook: string,
+        website: string,
+        vk: string,
+        twitter: string,
+        instagram: string,
+        youtube: string,
+        github: string,
+        mainLink: string,
     }
     lookingForAJob: boolean | null,
     lookingForAJobDescription: string | null,
