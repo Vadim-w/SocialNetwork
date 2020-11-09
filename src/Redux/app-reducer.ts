@@ -5,10 +5,12 @@ import {RootStateType} from "./redux-store";
 
 type initialStateType = {
     initialized: boolean
+    globalError: string | null
 }
 
-let initialState = {
-    initialized: false
+let initialState: initialStateType = {
+    initialized: false,
+    globalError: null
 };
 
 

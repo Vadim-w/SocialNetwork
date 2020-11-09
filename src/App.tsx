@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NavBar from "./Components/Navbar/Navbar";
-import {HashRouter, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
 import News from './Components/News/News';
 import Settings from './Components/Settings/Settings';
 import Music from './Components/Music/Music';
@@ -15,8 +15,6 @@ import {RootStateType, store} from "./Redux/redux-store";
 import {Preloader} from "./common/preloader/Preloader";
 import {WithSuspense} from "./hoc/WithSuspense";
 
-//import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-//import ProfileContainer from "./Components/Profile/ProfileContainer";
 
 const DialogsContainer = React.lazy(() => import('./Components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./Components/Profile/ProfileContainer'));
@@ -28,8 +26,16 @@ type AppContainerPropsType = {
 
 
 class App extends React.Component<AppContainerPropsType> {
+    catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+        alert("some error occured")
+    }
+
     componentDidMount() {
         this.props.setInitializedAppTC()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors)
+    }
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -67,10 +73,10 @@ let AppContainer = compose(
 
 export const MainApp = () => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Provider store={store}>
                 <AppContainer/>
             </Provider>
-        </HashRouter>
+        </BrowserRouter>
     )
 }

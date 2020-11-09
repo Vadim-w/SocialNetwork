@@ -69,7 +69,6 @@ export const loginTC = (email: string, password: string, rememberMe: boolean = f
                 }
                 else {
                     if (response.data.resultCode === 10) {
-                        debugger
                         dispatch(getCaptchaUrl())
                     }
                    let message =  response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
@@ -80,7 +79,6 @@ export const loginTC = (email: string, password: string, rememberMe: boolean = f
 
 export const getCaptchaUrl = (): ThunkType => {
     return  async (dispatch) => {
-        debugger
         let response = await securityAPI.getCaptchaUrl()
         const captchaUrl = response.data.url
         dispatch(getCaptchaUrlSuccessAC(captchaUrl))

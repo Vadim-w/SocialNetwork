@@ -75,7 +75,6 @@ export const authAPI = {
 
 export const securityAPI = {
     getCaptchaUrl() {
-        debugger
         return instanse.get('security/get-captcha-url')
     }
 }
